@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper">
+
+    <sql id="cols">
+        id,name,age
+    </sql>
+    <sql id="tbl">
+        "user"
+    </sql>
+
+    <!--此处sql语句入、出参数由SqlSession接口方法决定-->
+    <insert id="insertUser" parameterType="User" >
+        insert into <include refid="tbl"/>(<include refid="cols"/>) values(#{id},#{name},#{age})
+    </insert>
+
+    <!--id:statement标识;resulttype结果集映射成classs-->
+    <update id="updateUser" parameterType="User">
+        update <include refid="tbl"/> set name=#{name},age=#{age} where id = #{id}
+    </update>
+
+    <select id="selectUser" parameterType="int" resultType="User">
+        select <include refid="cols"/> from <include refid="tbl"/> where id = #{id}
+    </select>
+
+    <!--TypeHandlers类型处理器:依Result检索值匹配java类型-->
+    <select id="selectList" resultType="User">
+        <!--数据库field别名-->
+        select <include refid="cols"/>,name userName from <include refid="tbl"/>
+    </select>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from <include refid="tbl"/> where id = #{id}
+    </delete>
+
+</mapper>
+

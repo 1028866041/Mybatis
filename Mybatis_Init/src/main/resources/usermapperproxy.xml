@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--若使用动态代理则namespace是DAO接口-->
+<mapper namespace="com.myself.dao.UserDAO">
+
+    <sql id="cols">
+        id,name,age
+    </sql>
+    <sql id="tbl">
+        "user"
+    </sql>
+
+    <insert id="insertUser" parameterType="User" >
+        insert into <include refid="tbl"/> (<include refid="cols"/>) values(#{id},#{name},#{age})
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update <include refid="tbl"/> set name=#{name},age=#{age} where id = #{id}
+    </update>
+
+    <select id="selectUser" parameterType="int" resultType="User">
+        select <include refid="cols"/> from <include refid="tbl"/> where id = #{id}
+    </select>
+
+    <select id="selectList" resultType="User">
+        select <include refid="cols"/>,name userName from <include refid="tbl"/>
+    </select>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from <include refid="tbl"/> where id = #{id}
+    </delete>
+
+</mapper>
+

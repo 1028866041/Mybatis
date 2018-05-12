@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <!--mapUnderscoreToCamelCase驼峰式命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.myself.model.User" alias="User"/>
+        <!--扫描包对每个class生成别名-->
+        <package name="com.myself.model"/>
+    </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.myself.plugin.MyPlugin">
+            <property name="property" value="0"/>
+        </plugin>
+    </plugins>
+
+    <!--<properties resource="jdbc.properties"></properties>-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+                <property name="username" value="mc" />
+                <property name="password" value="meichao" />
+            </dataSource>
+        </environment>
+        <environment id="test">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/test" />
+                <property name="username" value="mc" />
+                <property name="password" value="meichao" />
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--<mapper resource="usermapper.xml" />
+        <mapper resource="usermapperproxy.xml"/>-->
+        <!--<package name="com.myself.mapper"/>-->
+        <mapper class="com.myself.mapper.UserMapper"/>
+    </mappers>
+
+</configuration>
